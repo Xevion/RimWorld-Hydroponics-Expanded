@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <packageId>Xevion.HydroponicsExpanded</packageId>
+    <name>Hydroponics Expanded</name>
+    <author>Xevion</author>
+    <description>A work in progress. This description will be updated once I have something worth publishing.</description>
+    <supportedVersions>
+        <li>1.4</li>
+    </supportedVersions>
+    <modVersion>0.0.1</modVersion>
+    <url>https://github.com/Xevion/RimWorld-Hydroponics-Expanded</url>
+</ModMetaData>
