@@ -146,23 +146,28 @@ namespace HydroponicsExpanded {
         public override void Draw() {
             base.Draw();
 
-            // TODO: Shouldn't this be checking the bay grow stage?
-            if (_innerContainer.Count < _capacity || !base.CanAcceptSowNow()) return;
+            // Only draw growth percentage bar during Sowing stage
+            if (_stage == HydroponicsStage.Grow) {
+                var bar = default(GenDraw.FillableBarRequest);
 
-            var fillableBar = default(GenDraw.FillableBarRequest);
+                bar.center = DrawPos + Vector3.up * 0.1f;
+                bar.size = new Vector2(3.6f, 0.6f);
+                bar.margin = 0.15f;
+                bar.fillPercent = _highestGrowth;
 
-            fillableBar.center = DrawPos + Vector3.up * 0.1f;
-            fillableBar.size = new Vector2(3.6f, 0.6f);
-            fillableBar.fillPercent = _highestGrowth;
-            fillableBar.filledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.2f, 0.85f, 0.2f));
-            fillableBar.unfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
-            fillableBar.margin = 0.15f;
+                // Switch to red when no power is provided.
+                bar.filledMat = SolidColorMaterials.SimpleSolidColorMaterial(base.CanAcceptSowNow()
+                    ? new Color(0.2f, 0.85f, 0.2f)
+                    : new Color(0.82f, 0f, 0f));
+                bar.unfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
 
-            Rot4 rotation = Rotation;
-            rotation.Rotate(RotationDirection.Clockwise);
-            fillableBar.rotation = rotation;
 
-            GenDraw.DrawFillableBar(fillableBar);
+                Rot4 rotation = base.Rotation;
+                rotation.Rotate(RotationDirection.Clockwise);
+                bar.rotation = rotation;
+
+                GenDraw.DrawFillableBar(bar);
+            }
         }
 
         public override string GetInspectString() {
