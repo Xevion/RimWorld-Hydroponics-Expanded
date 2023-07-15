@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <LanguageData>
-  <HydroponicsExpanded.OccupiedBays>Occupied Plant Bays</HydroponicsExpanded.OccupiedBays>
-  <HydroponicsExpanded.Growth>Growth</HydroponicsExpanded.Growth>
+    <HydroponicsExpanded.SowingStage>Waiting for more plants to be sown.</HydroponicsExpanded.SowingStage>
+    <HydroponicsExpanded.GrowStage>Growing all plants to maturity now.</HydroponicsExpanded.GrowStage>
+    <HydroponicsExpanded.HarvestStage>Waiting for all plants to be harvested.</HydroponicsExpanded.HarvestStage>
+    <HydroponicsExpanded.OccupiedBays>Occupied Plant Bays</HydroponicsExpanded.OccupiedBays>
+    <HydroponicsExpanded.Growth>Growth</HydroponicsExpanded.Growth>
 </LanguageData>

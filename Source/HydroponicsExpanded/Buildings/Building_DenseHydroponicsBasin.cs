@@ -162,6 +162,22 @@ namespace HydroponicsExpanded {
         public override string GetInspectString() {
             string inspectString = base.GetInspectString();
 
+            // Include information about the current growth stage of the basin
+            inspectString += "\n";
+            switch (_stage) {
+                case HydroponicsStage.Sowing:
+                    inspectString += "HydroponicsExpanded.SowingStage".Translate();
+                    break;
+                case HydroponicsStage.Grow:
+                    inspectString += "HydroponicsExpanded.GrowStage".Translate();
+                    break;
+                case HydroponicsStage.Harvest:
+                    inspectString += "HydroponicsExpanded.HarvestStage".Translate();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             inspectString += "\n";
             inspectString += "HydroponicsExpanded.OccupiedBays".Translate() + $": {_innerContainer.Count()}";
 
