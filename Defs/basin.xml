@@ -68,7 +68,7 @@
             </li>
         </modExtensions>
         <researchPrerequisites>
-            <li>HDH_HighDensity</li>
+            <li>HE_HighDensityHydroponics</li>
         </researchPrerequisites>
     </ThingDef>
 
@@ -112,7 +112,7 @@
             </li>
         </modExtensions>
         <researchPrerequisites>
-            <li>HDH_HighDensity_Ultra</li>
+            <li>HE_UltraDensityHydroponics</li>
         </researchPrerequisites>
     </ThingDef>
 

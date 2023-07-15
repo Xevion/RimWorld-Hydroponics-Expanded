@@ -1,6 +1,6 @@
 <Defs>
   <ResearchProjectDef>
-    <defName>HDH_HighDensity</defName>
+    <defName>HE_HighDensityHydroponics</defName>
     <label>high-density hydroponics</label>
     <description>Techniques for increasing plant growth density in an artificial mini-biome.</description>
     <baseCost>800</baseCost>
@@ -12,13 +12,13 @@
     <researchViewY>0.5</researchViewY>
   </ResearchProjectDef>
   <ResearchProjectDef>
-    <defName>HDH_HighDensity_Ultra</defName>
+    <defName>HE_UltraDensityHydroponics</defName>
     <label>ultra-density hydroponics</label>
     <description>Techniques for further increasing plant growth density in an artificial mini-biome.</description>
     <baseCost>2000</baseCost>
     <techLevel>Industrial</techLevel>
     <prerequisites>
-      <li>HDH_HighDensity</li>
+      <li>HE_HighDensityHydroponics</li>
     </prerequisites>
     <researchViewX>7</researchViewX>
     <researchViewY>0.5</researchViewY>
