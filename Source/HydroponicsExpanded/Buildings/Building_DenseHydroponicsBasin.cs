@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HydroponicsExpanded.Enums;
 using HydroponicsExpanded.ModExtension;
@@ -23,86 +24,117 @@ namespace HydroponicsExpanded {
             get { return this.OccupiedRect().Cells; }
         }
 
-        public override void TickRare() {
-            int growingPlants = 0;
+        private void SowTick() {
+            bool capacityReached = _innerContainer.Count >= _capacity;
+
+            // TODO: Why is this here?
             foreach (Plant plant in PlantsOnMe) {
-                if (plant.LifeStage != PlantLifeStage.Growing)
-                    continue;
-
-                growingPlants++;
-                if (_innerContainer.Count >= _capacity)
+                // Blighted plants will be destroyed and not added to the internal container.
+                // Once capacity is reached, all plants will be ignored.
+                if (capacityReached || plant.Blighted) {
                     plant.Destroy();
-            }
-
-            if (growingPlants >= 2) {
-                foreach (Plant plant in PlantsOnMe) {
-                    if (plant.LifeStage != PlantLifeStage.Growing || plant.Blighted) continue;
-                    plant.DeSpawn();
-                    TryAcceptThing(plant);
-
-                    if (_innerContainer.Count < _capacity) continue;
-
-                    // All plants were planted in hydroponics - switch to grow stage.
-                    SoundStarter.PlayOneShot(SoundDefOf.CryptosleepCasket_Accept,
-                        new TargetInfo(Position, Map));
-                    _stage = HydroponicsStage.Grow;
-                    break;
+                    continue;
                 }
+
+                // Otherwise, we move the plant underground.
+                plant.DeSpawn();
+                TryAcceptThing(plant);
+
+                // Recalculate capacity.
+                capacityReached = _innerContainer.Count >= _capacity;
             }
 
+            // If the maximum capacity is reached, then we should move to the growing stage.
+            if (capacityReached) {
+                SoundStarter.PlayOneShot(SoundDefOf.CryptosleepCasket_Accept,
+                    new TargetInfo(Position, Map));
+                _stage = HydroponicsStage.Grow;
+            }
+        }
+
+        private void GrowTick() {
+            // If there are no plants stored, reset the growth % and move back to the sowing stage.
             if (_innerContainer.Count == 0) {
                 _stage = HydroponicsStage.Sowing;
                 _highestGrowth = 0f;
             }
 
-            if (CanAcceptSowNow()) {
-                float temperature = Position.GetTemperature(Map);
-                if (_stage == HydroponicsStage.Grow && temperature > 10f && temperature < 42f &&
-                    GenLocalDate.DayPercent(this) > 0.25f && GenLocalDate.DayPercent(this) < 0.8f) {
-                    var plant = _innerContainer[0] as Plant;
-                    float num2 = 1f / (60000f * plant.def.plant.growDays) * 250f;
-                    plant.Growth += _fertility * num2;
-                    _highestGrowth = plant.Growth;
-                    if (plant.LifeStage == PlantLifeStage.Mature) {
-                        _stage = HydroponicsStage.Harvest;
-                    }
-                }
+            // Despite the name, this is just a power check. We don't want to grow the plants if there is no power.
+            if (!base.CanAcceptSowNow()) return;
 
-                if (_stage != HydroponicsStage.Harvest)
-                    return;
+            // Temperature & time of day check.
+            float temperature = Position.GetTemperature(Map);
+            if (!(temperature > 10f) || !(temperature < 42f) ||
+                !(GenLocalDate.DayPercent(this) > 0.25f) || !(GenLocalDate.DayPercent(this) < 0.8f)) return;
 
-                {
-                    var thing = default(Thing);
-                    foreach (Thing thing1 in _innerContainer) {
-                        var item3 = (Plant)thing1;
+            // The first plant in the container is the 'tracked' plant.
+            var growthTrackingPlant = _innerContainer[0] as Plant;
 
-                        // TOOD: What is this counter variable for?
-                        int c = 0;
-                        foreach (IntVec3 current in this.OccupiedRect()) {
-                            List<Thing> list = Map.thingGrid.ThingsListAt(current);
-                            bool flag = list.OfType<Plant>().Any();
+            float growthAmount = 1f / (60000f * growthTrackingPlant.def.plant.growDays) * 250f;
+            growthTrackingPlant.Growth += _fertility * growthAmount;
+            _highestGrowth = growthTrackingPlant.Growth;
 
-                            if (!flag) {
-                                item3.Growth = 1f;
-                                _innerContainer.TryDrop(item3, current, Map, ThingPlaceMode.Direct, out thing);
-                                break;
-                            }
+            // When growth is complete, move to the harvesting stage.
+            if (growthTrackingPlant.LifeStage == PlantLifeStage.Mature)
+                _stage = HydroponicsStage.Harvest;
+        }
 
-                            c++;
-                        }
+        private void HarvestTick() {
+            // Try to place every plant in the container in any cell.
+            foreach (Thing nextInnerThing in _innerContainer) {
+                var nextPlant = (Plant)nextInnerThing;
 
-                        if (c >= 4) {
-                            break;
-                        }
+                int occupiedCells = 0;
+
+                foreach (IntVec3 current in this.OccupiedRect()) {
+                    List<Thing> list = Map.thingGrid.ThingsListAt(current);
+
+                    // Skip this cell if it's occupied by another plant.
+                    if (list.OfType<Plant>().Any()) {
+                        occupiedCells++;
+                        continue;
                     }
 
-                    return;
+                    nextPlant.Growth = 1f;
+                    _innerContainer.TryDrop(nextPlant, current, Map, ThingPlaceMode.Direct, out _);
+                    break;
                 }
+
+                if (occupiedCells >= 4)
+                    break;
             }
+        }
 
-            // TODO: Why is 1 rotting damage applied to all plants in the container?
-            foreach (Thing thing in _innerContainer)
-                ((Plant)thing).TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
+        private void TickStage(HydroponicsStage stage) {
+            switch (stage) {
+                case HydroponicsStage.Sowing:
+                    SowTick();
+                    break;
+                case HydroponicsStage.Grow:
+                    GrowTick();
+                    break;
+                case HydroponicsStage.Harvest:
+                    HarvestTick();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Unable to select stage tick for BuildingDenseHydroponicsBasin.TickRare.");
+            }
+        }
+
+        public override void TickRare() {
+            // Tick the current stage.
+            HydroponicsStage initialStage = _stage;
+            TickStage(_stage);
+
+            // If the stage changed, re-run the next tick. This can allow for instant Grow -> Harvest transition.
+            if (_stage != initialStage)
+                TickStage(_stage);
+
+            // Apply rotting damage to all plants while power is cut.
+            if (!base.CanAcceptSowNow())
+                foreach (Thing thing in _innerContainer)
+                    ((Plant)thing).TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
         }
 
         public override void Draw() {
@@ -142,19 +174,23 @@ namespace HydroponicsExpanded {
         }
 
         protected virtual bool TryAcceptThing(Thing thing) {
-            if (!Accepts(thing))
+            // Make sure that the plant container can accept the plant Thing.
+            if (!_innerContainer.CanAcceptAnyOf(thing))
                 return false;
 
+            // If the thing does not have an owner, just add it. Perhaps it was created in memory?
             if (thing.holdingOwner == null) return _innerContainer.TryAdd(thing);
 
+            // Thing has an owner, so use TryTransferToContainer.
             thing.holdingOwner.TryTransferToContainer(thing, _innerContainer, thing.stackCount);
             return true;
         }
 
-        protected virtual bool Accepts(Thing thing) {
-            return _innerContainer.CanAcceptAnyOf(thing);
-        }
 
+        /**
+         * Only allows sowing in the 'sowing' stage. Otherwise, the hydroponics bay is 'sealed' while
+         * all the plants are growing.
+         */
         public new bool CanAcceptSowNow() {
             return base.CanAcceptSowNow() && _stage == HydroponicsStage.Sowing;
         }
