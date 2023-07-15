@@ -9,6 +9,7 @@ using Verse;
 using Verse.Sound;
 
 namespace HydroponicsExpanded {
+    [StaticConstructorOnStartup]
     public class BuildingDenseHydroponicsBasin : Building_PlantGrower, IThingHolder, IPlantToGrowSettable {
         private ThingOwner _innerContainer;
         private int _capacity = 4;
@@ -82,6 +83,9 @@ namespace HydroponicsExpanded {
         }
 
         private void HarvestTick() {
+            // var plantsLeft = _innerContainer.Count;
+            // var potentialCellCount = this.OccupiedRect().Area;
+
             // Try to place every plant in the container in any cell.
             foreach (Thing nextInnerThing in _innerContainer) {
                 var nextPlant = (Plant)nextInnerThing;
@@ -143,6 +147,15 @@ namespace HydroponicsExpanded {
                     ((Plant)thing).TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
         }
 
+        private static readonly Material HydroponicPoweredFillMaterial =
+            SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.2f, 0.85f, 0.2f));
+
+        private static readonly Material HydroponicUnpoweredFillMaterial =
+            SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.82f, 0f, 0f));
+
+        private static readonly Material HydroponicUnfilledMaterial =
+            SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
+
         public override void Draw() {
             base.Draw();
 
@@ -156,15 +169,16 @@ namespace HydroponicsExpanded {
                 bar.fillPercent = _highestGrowth;
 
                 // Switch to red when no power is provided.
-                bar.filledMat = SolidColorMaterials.SimpleSolidColorMaterial(base.CanAcceptSowNow()
-                    ? new Color(0.2f, 0.85f, 0.2f)
-                    : new Color(0.82f, 0f, 0f));
-                bar.unfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
+                bar.filledMat = base.CanAcceptSowNow()
+                    ? HydroponicPoweredFillMaterial
+                    : HydroponicUnpoweredFillMaterial;
+                bar.unfilledMat = HydroponicUnfilledMaterial;
 
 
-                Rot4 rotation = base.Rotation;
-                rotation.Rotate(RotationDirection.Clockwise);
-                bar.rotation = rotation;
+                // Rot4 rotation = base.Rotation;
+                // rotation.Rotate(RotationDirection.Clockwise);
+                // bar.rotation = rotation;
+                bar.rotation = Rotation;
 
                 GenDraw.DrawFillableBar(bar);
             }
