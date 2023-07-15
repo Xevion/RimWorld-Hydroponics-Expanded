@@ -36,8 +36,8 @@
     </ThingDef>
 
     <ThingDef ParentName="HydroponicsExpanded_Base">
-        <defName>HDH_Hydroponics</defName>
-        <label>high-density hydroponics bay</label>
+        <defName>HE_Dense_Hydroponics</defName>
+        <label>Dense Hydroponics Bay</label>
         <graphicData>
             <texPath>Basins/BasinDense</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
@@ -73,8 +73,8 @@
     </ThingDef>
 
     <ThingDef ParentName="HydroponicsExpanded_Base">
-        <defName>HDH_Hydroponics_Hyper</defName>
-        <label>hyper-density hydroponics bay</label>
+        <defName>HE_Hyper_Hydroponics</defName>
+        <label>Hyper Hydroponics Bay</label>
         <graphicData>
             <texPath>Basins/BasinHyper</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
@@ -117,10 +117,10 @@
     </ThingDef>
 
     <ThingDef ParentName="HydroponicsExpanded_Base">
-        <defName>HDH_Hydroponics_mini</defName>
-        <label>mini hydroponics bay</label>
+        <defName>HE_Compact_Hydroponics</defName>
+        <label>Compact Hydroponics Bay</label>
         <graphicData>
-            <texPath>Basins/BasinMini</texPath>
+            <texPath>Basins/BasinCompact</texPath>
             <graphicClass>Graphic_Multi</graphicClass>
             <drawSize>(1,4)</drawSize>
             <damageData>
