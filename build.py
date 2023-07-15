@@ -28,16 +28,16 @@ def main(output_directory: Path) -> None:
 
         for folder in pertinents_folders:
             destination_folder_path: Path = output_mod_directory / folder
-            
+
             # Ignore folders that don't exist.
             if not destination_folder_path.exists():
                 continue
-                
+
             has_children: bool = any(destination_folder_path.iterdir())
             logger.debug('Clearing "{}" folder.'.format(folder))
             if has_children:
                 rmtree(destination_folder_path)
-            destination_folder_path.rmdir()
+            # destination_folder_path.rmdir()
     else:
         output_mod_directory.mkdir(parents=False)
 
