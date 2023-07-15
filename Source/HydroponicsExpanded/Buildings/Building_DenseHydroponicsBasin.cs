@@ -176,7 +176,8 @@ namespace HydroponicsExpanded {
         }
 
         public ThingOwner GetDirectlyHeldThings() {
-            return null;
+            // TODO: Why was the original mod returning 'null'? Is this the intended usage? Research.
+            return _innerContainer;
         }
 
         public override void ExposeData() {
