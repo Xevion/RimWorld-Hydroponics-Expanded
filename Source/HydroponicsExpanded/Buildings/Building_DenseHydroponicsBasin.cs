@@ -11,8 +11,8 @@ using Verse.Sound;
 namespace HydroponicsExpanded {
     public class BuildingDenseHydroponicsBasin : Building_PlantGrower, IThingHolder, IPlantToGrowSettable {
         private ThingOwner _innerContainer;
-        private int _capacity = 52;
-        private float _fertility = 2.8f;
+        private int _capacity = 4;
+        private float _fertility = 1.0f;
         private float _highestGrowth = 0f;
         private HydroponicsStage _stage = HydroponicsStage.Sowing;
 
@@ -57,6 +57,7 @@ namespace HydroponicsExpanded {
             if (_innerContainer.Count == 0) {
                 _stage = HydroponicsStage.Sowing;
                 _highestGrowth = 0f;
+                return;
             }
 
             // Despite the name, this is just a power check. We don't want to grow the plants if there is no power.
@@ -70,7 +71,8 @@ namespace HydroponicsExpanded {
             // The first plant in the container is the 'tracked' plant.
             var growthTrackingPlant = _innerContainer[0] as Plant;
 
-            float growthAmount = 1f / (60000f * growthTrackingPlant.def.plant.growDays) * 250f;
+            // ReSharper disable once PossibleNullReferenceException
+            float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
             growthTrackingPlant.Growth += _fertility * growthAmount;
             _highestGrowth = growthTrackingPlant.Growth;
 
@@ -103,6 +105,10 @@ namespace HydroponicsExpanded {
                 if (occupiedCells >= 4)
                     break;
             }
+
+            // All plants have been harvested. Switch back to sowing stage.
+            if (_innerContainer.Count == 0)
+                _stage = HydroponicsStage.Sowing;
         }
 
         private void TickStage(HydroponicsStage stage) {
@@ -118,7 +124,7 @@ namespace HydroponicsExpanded {
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(
-                        "Unable to select stage tick for BuildingDenseHydroponicsBasin.TickRare.");
+                        nameof(stage), "Unable to select stage tick for BuildingDenseHydroponicsBasin.TickRare.");
             }
         }
 
@@ -213,14 +219,17 @@ namespace HydroponicsExpanded {
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad) {
             base.SpawnSetup(map, respawningAfterLoad);
-            LoadConfig();
-        }
 
-        private void LoadConfig() {
             var modExtension = def.GetModExtension<CapacityExtension>();
-            if (modExtension == null) return;
+            if (modExtension != null) {
+                _capacity = modExtension.capacity;
+            }
 
-            _capacity = modExtension.capacity;
+            // Delete all plants underneath the hydroponics
+            if (!respawningAfterLoad)
+                foreach (Plant plant in PlantsOnMe) {
+                    plant.Destroy();
+                }
         }
 
         public void GetChildHolders(List<IThingHolder> outChildren) {
