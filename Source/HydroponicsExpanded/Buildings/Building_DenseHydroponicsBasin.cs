@@ -175,10 +175,9 @@ namespace HydroponicsExpanded {
                 bar.unfilledMat = HydroponicUnfilledMaterial;
 
 
-                // Rot4 rotation = base.Rotation;
-                // rotation.Rotate(RotationDirection.Clockwise);
-                // bar.rotation = rotation;
-                bar.rotation = Rotation;
+                Rot4 rotation = Rotation;
+                rotation.Rotate(RotationDirection.Clockwise);
+                bar.rotation = rotation;
 
                 GenDraw.DrawFillableBar(bar);
             }

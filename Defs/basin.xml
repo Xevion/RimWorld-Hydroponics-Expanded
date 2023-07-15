@@ -2,6 +2,7 @@
     <ThingDef Name="HydroponicsExpanded_Base" ParentName="BuildingBase" Abstract="True">
         <description>An artificial nutrient bath that allows very dense crop growths in growth bays underneath. The nutrient pumps must work continuously; the plants will die if power is cut. Includes its own internal light source, but the internal ventilation system is not temperature controlled.</description>
         <thingClass>HydroponicsExpanded.BuildingDenseHydroponicsBasin</thingClass>
+        <drawerType>MapMeshAndRealTime</drawerType>
         <minifiedDef>MinifiedThing</minifiedDef>
         <thingCategories>
             <li>BuildingsProduction</li>
