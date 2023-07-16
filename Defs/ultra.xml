@@ -1,0 +1,92 @@
+<Defs>
+    <ThingDef ParentName="HydroponicsExpanded_Base">
+        <defName>HE_Ultra_Hydroponics</defName>
+        <label>Ultradense Hydroponics Bay</label>
+        <graphicData>
+            <texPath>Basins/BasinUltra</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(1,4)</drawSize>
+            <damageData>
+                <cornerTL>Damage/Corner</cornerTL>
+                <cornerTR>Damage/Corner</cornerTR>
+                <cornerBL>Damage/Corner</cornerBL>
+                <cornerBR>Damage/Corner</cornerBR>
+            </damageData>
+        </graphicData>
+        <fertility>3.15</fertility>
+        <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
+        <statBases>
+            <WorkToBuild>7000</WorkToBuild>
+            <MaxHitPoints>250</MaxHitPoints>
+            <Flammability>0.5</Flammability>
+            <Cleanliness>-3</Cleanliness>
+        </statBases>
+        <costList>
+            <Steel>850</Steel>
+            <Plasteel>120</Plasteel>
+            <ComponentIndustrial>8</ComponentIndustrial>
+            <ComponentSpacer>3</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>1500</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+        </comps>
+        <modExtensions>
+            <li Class="HydroponicsExpanded.ModExtension.CapacityExtension">
+                <capacity>40</capacity>
+            </li>
+        </modExtensions>
+        <researchPrerequisites>
+            <li>HE_UltraDensityHydroponics</li>
+        </researchPrerequisites>
+    </ThingDef>
+    <ThingDef ParentName="HydroponicsExpanded_Base">
+        <defName>HE_Quantum_Hydroponics</defName>
+        <label>Quantum Hydroponics Bay</label>
+        <graphicData>
+            <texPath>Basins/BasinUltra</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(1,4)</drawSize>
+            <damageData>
+                <cornerTL>Damage/Corner</cornerTL>
+                <cornerTR>Damage/Corner</cornerTR>
+                <cornerBL>Damage/Corner</cornerBL>
+                <cornerBR>Damage/Corner</cornerBR>
+            </damageData>
+        </graphicData>
+        <fertility>3.4</fertility>
+        <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+        <statBases>
+            <WorkToBuild>9500</WorkToBuild>
+            <MaxHitPoints>300</MaxHitPoints>
+            <Flammability>0.5</Flammability>
+            <Cleanliness>-3</Cleanliness>
+        </statBases>
+        <costList>
+            <Steel>200</Steel>
+            <Plasteel>200</Plasteel>
+            <ComponentIndustrial>12</ComponentIndustrial>
+            <ComponentSpacer>5</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>2200</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+        </comps>
+        <modExtensions>
+            <li Class="HydroponicsExpanded.ModExtension.CapacityExtension">
+                <capacity>65</capacity>
+            </li>
+        </modExtensions>
+        <researchPrerequisites>
+            <li>HE_UltraDensityHydroponics</li>
+        </researchPrerequisites>
+    </ThingDef>
+</Defs>

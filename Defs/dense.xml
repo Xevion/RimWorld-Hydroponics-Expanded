@@ -1,0 +1,47 @@
+﻿<Defs>
+    <ThingDef ParentName="HydroponicsExpanded_Base">
+        <defName>HE_Dense_Hydroponics</defName>
+        <label>Dense Hydroponics Bay</label>
+        <graphicData>
+            <texPath>Basins/BasinDense</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(1,4)</drawSize>
+            <damageData>
+                <cornerTL>Damage/Corner</cornerTL>
+                <cornerTR>Damage/Corner</cornerTR>
+                <cornerBL>Damage/Corner</cornerBL>
+                <cornerBR>Damage/Corner</cornerBR>
+            </damageData>
+        </graphicData>
+        <fertility>3.0</fertility>
+        <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+        <statBases>
+            <WorkToBuild>5000</WorkToBuild>
+            <MaxHitPoints>250</MaxHitPoints>
+            <Flammability>0.5</Flammability>
+            <Cleanliness>-3</Cleanliness>
+        </statBases>
+        <costList>
+            <Steel>600</Steel>
+            <Plasteel>80</Plasteel>
+            <ComponentIndustrial>6</ComponentIndustrial>
+            <ComponentSpacer>1</ComponentSpacer>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>750</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+        </comps>
+        <modExtensions>
+            <li Class="HydroponicsExpanded.ModExtension.CapacityExtension">
+                <capacity>28</capacity>
+            </li>
+        </modExtensions>
+        <researchPrerequisites>
+            <li>HE_HighDensityHydroponics</li>
+        </researchPrerequisites>
+    </ThingDef>
+</Defs>

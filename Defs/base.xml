@@ -1,0 +1,36 @@
+﻿<Defs>
+    <ThingDef Name="HydroponicsExpanded_Base" ParentName="BuildingBase" Abstract="True">
+        <description>An artificial nutrient bath that allows very dense crop growths in growth bays underneath. The nutrient pumps must work continuously; the plants will die if power is cut. Includes its own internal light source, but the internal ventilation system is not temperature controlled.</description>
+        <thingClass>HydroponicsExpanded.BuildingDenseHydroponicsBasin</thingClass>
+        <drawerType>MapMeshAndRealTime</drawerType>
+        <minifiedDef>MinifiedThing</minifiedDef>
+        <thingCategories>
+            <li>BuildingsProduction</li>
+        </thingCategories>
+        <castEdgeShadows>true</castEdgeShadows>
+        <altitudeLayer>FloorEmplacement</altitudeLayer>
+        <defaultPlacingRot>East</defaultPlacingRot>
+        <passability>PassThroughOnly</passability>
+        <pathCost>60</pathCost>
+        <constructEffect>ConstructMetal</constructEffect>
+        <fillPercent>0.30</fillPercent>
+        <canOverlapZones>false</canOverlapZones>
+        <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+        <statBases>
+            <WorkToBuild>2800</WorkToBuild>
+            <MaxHitPoints>180</MaxHitPoints>
+            <Flammability>0.5</Flammability>
+            <Cleanliness>-3</Cleanliness>
+            <Mass>80</Mass>
+        </statBases>
+        <size>(1,4)</size>
+        <fertility>2.8</fertility>
+        <building>
+            <defaultPlantToGrow>Plant_Rice</defaultPlantToGrow>
+            <sowTag>Hydroponic</sowTag>
+        </building>
+        <tickerType>Rare</tickerType>
+        <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+        <designationCategory>Production</designationCategory>
+    </ThingDef>
+</Defs>

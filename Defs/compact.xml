@@ -1,0 +1,42 @@
+﻿<Defs>
+    <ThingDef ParentName="HydroponicsExpanded_Base">
+        <defName>HE_Compact_Hydroponics</defName>
+        <label>Compact Hydroponics Bay</label>
+        <graphicData>
+            <texPath>Basins/BasinCompact</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(1,4)</drawSize>
+            <damageData>
+                <cornerTL>Damage/Corner</cornerTL>
+                <cornerTR>Damage/Corner</cornerTR>
+                <cornerBL>Damage/Corner</cornerBL>
+                <cornerBR>Damage/Corner</cornerBR>
+            </damageData>
+        </graphicData>
+        <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+        <statBases>
+            <WorkToBuild>4200</WorkToBuild>
+            <MaxHitPoints>250</MaxHitPoints>
+            <Flammability>0.5</Flammability>
+            <Cleanliness>-3</Cleanliness>
+        </statBases>
+        <costList>
+            <Steel>280</Steel>
+            <ComponentIndustrial>3</ComponentIndustrial>
+        </costList>
+        <comps>
+            <li Class="CompProperties_Forbiddable" />
+            <li Class="CompProperties_Power">
+                <compClass>CompPowerTrader</compClass>
+                <basePowerConsumption>480</basePowerConsumption>
+            </li>
+            <li Class="CompProperties_Flickable" />
+        </comps>
+        <modExtensions>
+            <li Class="HydroponicsExpanded.ModExtension.CapacityExtension">
+                <capacity>12</capacity>
+            </li>
+        </modExtensions>
+    </ThingDef>
+
+</Defs>
