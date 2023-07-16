@@ -25,10 +25,10 @@ namespace HydroponicsExpanded {
                 switch (value) {
                     case HydroponicsStage.Sowing:
                     case HydroponicsStage.Harvest:
-                        _compPowerTrader.PowerOutput = _compPowerTrader.Props.idlePowerDraw;
+                        _compPowerTrader.PowerOutput = -_compPowerTrader.Props.idlePowerDraw;
                         break;
                     case HydroponicsStage.Grow:
-                        _compPowerTrader.PowerOutput = _compPowerTrader.Props.PowerConsumption;
+                        _compPowerTrader.PowerOutput = -_compPowerTrader.Props.PowerConsumption;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

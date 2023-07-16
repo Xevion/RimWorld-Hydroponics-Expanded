@@ -33,6 +33,7 @@
             <li Class="CompProperties_Power">
                 <compClass>CompPowerTrader</compClass>
                 <basePowerConsumption>2200</basePowerConsumption>
+                <idlePowerDraw>150</idlePowerDraw>
             </li>
             <li Class="CompProperties_Flickable" />
         </comps>
