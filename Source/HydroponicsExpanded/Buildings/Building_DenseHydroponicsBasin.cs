@@ -57,11 +57,15 @@ namespace HydroponicsExpanded {
                     continue;
                 }
 
+                // When plants are being sown, they are invisible, but we want to wait until they are sown before adding them to the internal container.
+                if (plant.LifeStage == PlantLifeStage.Sowing)
+                    continue;
+
                 // Otherwise, we move the plant underground.
                 plant.DeSpawn();
                 TryAcceptThing(plant);
 
-                // Recalculate capacity.
+                // Recalculate if capacity was reached
                 capacityReached = _innerContainer.Count >= _capacity;
             }
 
