@@ -59,7 +59,8 @@ namespace HydroponicsExpanded {
                 }
 
                 // When plants are being sown, they are invisible, but we want to wait until they are sown before adding them to the internal container.
-                if (plant.LifeStage == PlantLifeStage.Sowing)
+                // When plants are harvested, they are placed on top, but we don't want to take those. Therefore, we only want 'Growing' stage plants.
+                if (plant.LifeStage != PlantLifeStage.Growing)
                     continue;
 
                 // Otherwise, we move the plant underground.
@@ -72,6 +73,9 @@ namespace HydroponicsExpanded {
 
             // If the maximum capacity is reached, then we should move to the growing stage.
             if (capacityReached) {
+                // Some plants might have been skipped, so go back and kill anything still on top.
+                foreach (Plant plant in PlantsOnMe)
+                    plant.Destroy();
                 SoundDefOf.CryptosleepCasket_Accept.PlayOneShot(new TargetInfo(Position, Map));
                 Stage = HydroponicsStage.Grow;
             }
@@ -103,7 +107,7 @@ namespace HydroponicsExpanded {
                 float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
 
                 // Debug gizmo can set growth to 100%, thus Math.min check here.
-                growthTrackingPlant.Growth = Math.Min(1f, def.fertility * growthAmount);
+                growthTrackingPlant.Growth = Math.Min(1f, growthTrackingPlant.Growth + def.fertility * growthAmount);
                 _highestGrowth = growthTrackingPlant.Growth;
             }
 
