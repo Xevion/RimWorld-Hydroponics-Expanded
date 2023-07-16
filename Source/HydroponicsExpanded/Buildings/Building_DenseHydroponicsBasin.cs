@@ -196,19 +196,17 @@ namespace HydroponicsExpanded {
 
             // Only draw growth percentage bar during Sowing stage
             if (_stage == HydroponicsStage.Grow) {
-                var bar = default(GenDraw.FillableBarRequest);
-
-                bar.center = DrawPos + Vector3.up * 0.1f;
-                bar.size = new Vector2(3.6f, 0.6f);
-                bar.margin = 0.15f;
-                bar.fillPercent = _highestGrowth;
-
-                // Switch to red when no power is provided.
-                bar.filledMat = base.CanAcceptSowNow()
-                    ? HydroponicPoweredFillMaterial
-                    : HydroponicUnpoweredFillMaterial;
-                bar.unfilledMat = HydroponicUnfilledMaterial;
-
+                var bar = new GenDraw.FillableBarRequest {
+                    center = DrawPos + Vector3.up * 0.1f,
+                    size = new Vector2(DrawSize.y - 0.4f, DrawSize.x - 0.4f),
+                    margin = 0.15f,
+                    fillPercent = _highestGrowth,
+                    // Switch to red when no power is provided.
+                    filledMat = base.CanAcceptSowNow()
+                        ? HydroponicPoweredFillMaterial
+                        : HydroponicUnpoweredFillMaterial,
+                    unfilledMat = HydroponicUnfilledMaterial
+                };
 
                 Rot4 rotation = Rotation;
                 rotation.Rotate(RotationDirection.Clockwise);
