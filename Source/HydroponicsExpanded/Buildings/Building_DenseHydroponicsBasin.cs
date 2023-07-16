@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HydroponicsExpanded.Enums;
 using HydroponicsExpanded.ModExtension;
+using HydroponicsExpanded.Utility;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -71,8 +72,7 @@ namespace HydroponicsExpanded {
 
             // If the maximum capacity is reached, then we should move to the growing stage.
             if (capacityReached) {
-                SoundStarter.PlayOneShot(SoundDefOf.CryptosleepCasket_Accept,
-                    new TargetInfo(Position, Map));
+                SoundDefOf.CryptosleepCasket_Accept.PlayOneShot(new TargetInfo(Position, Map));
                 Stage = HydroponicsStage.Grow;
             }
         }
@@ -123,17 +123,17 @@ namespace HydroponicsExpanded {
 
                 int occupiedCells = 0;
 
-                foreach (IntVec3 current in this.OccupiedRect()) {
-                    List<Thing> list = Map.thingGrid.ThingsListAt(current);
+                foreach (IntVec3 currentCell in this.OccupiedRect()) {
+                    List<Thing> cellThings = Map.thingGrid.ThingsListAt(currentCell);
 
                     // Skip this cell if it's occupied by another plant.
-                    if (list.OfType<Plant>().Any()) {
+                    if (cellThings.OfType<Plant>().Any()) {
                         occupiedCells++;
                         continue;
                     }
 
                     nextPlant.Growth = 1f;
-                    _innerContainer.TryDrop(nextPlant, current, Map, ThingPlaceMode.Direct, out _);
+                    _innerContainer.TryDrop(nextPlant, currentCell, Map, ThingPlaceMode.Direct, out _);
                     break;
                 }
 
@@ -234,7 +234,8 @@ namespace HydroponicsExpanded {
             }
 
             inspectString += "\n";
-            inspectString += "HydroponicsExpanded.OccupiedBays".Translate() + $": {_innerContainer.Count()}";
+            inspectString += "HydroponicsExpanded.OccupiedBays".Translate() +
+                             $": {_innerContainer.Count()} / {_capacity}";
 
             if (_innerContainer.Count > 0) {
                 inspectString += "\n";
