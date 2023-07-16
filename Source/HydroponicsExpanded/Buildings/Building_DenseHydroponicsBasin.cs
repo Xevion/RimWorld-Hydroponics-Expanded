@@ -141,7 +141,7 @@ namespace HydroponicsExpanded {
                     break;
                 }
 
-                if (occupiedCells >= 4)
+                if (occupiedCells >= this.OccupiedRect().Area)
                     break;
             }
 
