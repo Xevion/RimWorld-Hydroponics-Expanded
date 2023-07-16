@@ -1,6 +1,13 @@
-﻿# RimWorld-Hydroponics-Expanded
+﻿<div align="center">
+  <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3005196131">
+    <img src="./About/Preview.png" alt="Hydroponics Expanded">
+  </a>
+  <br>
+  <sub>
+    Made with love by <a href="https://github.com/Xevion">Xevion</a>
+  </sub>
+</div>
 
-[![Hydroponics Expanded Banner][banner]][workshop-link]
 
 Provides simple but powerful hydroponics that store plants underground at the cost of expensive components, lots of
 power, and research.
@@ -55,8 +62,6 @@ preventing the crop from being sown in the hydroponics in the first place (there
     - 1600 steel, 200 plasteel, 12 components, 5 advanced components @ 2,200 W
     - 9,500 work, Construction 12
     - 2x6 Bay, 65 plants, 340% fertility
-
-[banner]: ./About/Preview.png
 
 [workshop-link]: https://steamcommunity.com/sharedfiles/filedetails/?id=3005196131
 
