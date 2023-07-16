@@ -13,7 +13,6 @@ namespace HydroponicsExpanded {
     public class BuildingDenseHydroponicsBasin : Building_PlantGrower, IThingHolder, IPlantToGrowSettable {
         private ThingOwner _innerContainer;
         private int _capacity = 4;
-        private float _fertility = 1.0f;
         private float _highestGrowth = 0f;
         private HydroponicsStage _stage = HydroponicsStage.Sowing;
 
@@ -74,7 +73,7 @@ namespace HydroponicsExpanded {
 
             // ReSharper disable once PossibleNullReferenceException
             float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
-            growthTrackingPlant.Growth += _fertility * growthAmount;
+            growthTrackingPlant.Growth += def.fertility * growthAmount;
             _highestGrowth = growthTrackingPlant.Growth;
 
             // When growth is complete, move to the harvesting stage.

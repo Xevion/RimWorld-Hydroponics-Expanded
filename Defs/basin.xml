@@ -24,7 +24,6 @@
             <Mass>80</Mass>
         </statBases>
         <size>(1,4)</size>
-        <!-- this stat doesn't do anything for this mod -->
         <fertility>2.8</fertility>
         <building>
             <defaultPlantToGrow>Plant_Rice</defaultPlantToGrow>
@@ -88,6 +87,7 @@
                 <cornerBR>Damage/Corner</cornerBR>
             </damageData>
         </graphicData>
+        <fertility>3.0</fertility>
         <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
         <statBases>
             <WorkToBuild>5000</WorkToBuild>
@@ -133,6 +133,7 @@
                 <cornerBR>Damage/Corner</cornerBR>
             </damageData>
         </graphicData>
+        <fertility>3.15</fertility>
         <constructionSkillPrerequisite>10</constructionSkillPrerequisite>
         <statBases>
             <WorkToBuild>7000</WorkToBuild>
@@ -177,6 +178,7 @@
                 <cornerBR>Damage/Corner</cornerBR>
             </damageData>
         </graphicData>
+        <fertility>3.4</fertility>
         <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
         <statBases>
             <WorkToBuild>9500</WorkToBuild>
