@@ -12,9 +12,30 @@ namespace HydroponicsExpanded {
     [StaticConstructorOnStartup]
     public class BuildingDenseHydroponicsBasin : Building_PlantGrower, IThingHolder, IPlantToGrowSettable {
         private ThingOwner _innerContainer;
-        private int _capacity = 4;
+        private int _capacity = 4; // Modified by CapacityExtension DefModExtension
         private float _highestGrowth = 0f;
+        private CompPowerTrader _compPowerTrader;
+
         private HydroponicsStage _stage = HydroponicsStage.Sowing;
+
+        public HydroponicsStage Stage {
+            get => _stage;
+            private set {
+                switch (value) {
+                    case HydroponicsStage.Sowing:
+                    case HydroponicsStage.Harvest:
+                        _compPowerTrader.PowerOutput = _compPowerTrader.Props.idlePowerDraw;
+                        break;
+                    case HydroponicsStage.Grow:
+                        _compPowerTrader.PowerOutput = _compPowerTrader.Props.PowerConsumption;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                _stage = value;
+            }
+        }
 
         public BuildingDenseHydroponicsBasin() {
             _innerContainer = new ThingOwner<Thing>(this, false);
@@ -48,14 +69,14 @@ namespace HydroponicsExpanded {
             if (capacityReached) {
                 SoundStarter.PlayOneShot(SoundDefOf.CryptosleepCasket_Accept,
                     new TargetInfo(Position, Map));
-                _stage = HydroponicsStage.Grow;
+                Stage = HydroponicsStage.Grow;
             }
         }
 
         private void GrowTick() {
             // If there are no plants stored, reset the growth % and move back to the sowing stage.
             if (_innerContainer.Count == 0) {
-                _stage = HydroponicsStage.Sowing;
+                Stage = HydroponicsStage.Sowing;
                 _highestGrowth = 0f;
                 return;
             }
@@ -78,7 +99,7 @@ namespace HydroponicsExpanded {
 
             // When growth is complete, move to the harvesting stage.
             if (growthTrackingPlant.LifeStage == PlantLifeStage.Mature)
-                _stage = HydroponicsStage.Harvest;
+                Stage = HydroponicsStage.Harvest;
         }
 
         private void HarvestTick() {
@@ -111,7 +132,7 @@ namespace HydroponicsExpanded {
 
             // All plants have been harvested. Switch back to sowing stage.
             if (_innerContainer.Count == 0)
-                _stage = HydroponicsStage.Sowing;
+                Stage = HydroponicsStage.Sowing;
         }
 
         private void TickStage(HydroponicsStage stage) {
@@ -236,6 +257,8 @@ namespace HydroponicsExpanded {
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad) {
             base.SpawnSetup(map, respawningAfterLoad);
+
+            _compPowerTrader = GetComp<CompPowerTrader>();
 
             var modExtension = def.GetModExtension<CapacityExtension>();
             if (modExtension != null) {
