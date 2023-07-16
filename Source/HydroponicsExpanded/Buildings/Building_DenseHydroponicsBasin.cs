@@ -312,5 +312,45 @@ namespace HydroponicsExpanded {
             _innerContainer.ClearAndDestroyContents();
             foreach (Plant item in PlantsOnMe) item.Destroy();
         }
+
+        public override IEnumerable<Gizmo> GetGizmos() {
+            // Literally useless, but in case hydroponics get a developer gizmo, here we go.
+            foreach (Gizmo gizmo in base.GetGizmos()) {
+                yield return gizmo;
+            }
+
+            // Don't show gizmos unless in developer mode.
+            if (!DebugSettings.ShowDevGizmos) {
+                yield break;
+            }
+
+            // Developer trick to grow the 'first' plant internally, allowing growth tracking.
+            if (_innerContainer.Count > 0) {
+                var growTrackedAction = new Command_Action {
+                    defaultLabel = "DEV: Grow tracked plant",
+                    action = delegate {
+                        var trackedPlant = (Plant)_innerContainer[0];
+                        trackedPlant.Growth = 1f;
+                    }
+                };
+                yield return growTrackedAction;
+            }
+
+            var clearContainedPlants = new Command_Action {
+                defaultLabel = "DEV: Clear contained plants",
+                action = delegate {
+                    var i = 0;
+
+                    while (_innerContainer.Count > 0) {
+                        var plant = (Plant)_innerContainer[0];
+                        plant.Destroy();
+                        i++;
+                    }
+
+                    Messages.Message(new Message($"{i} plants destroyed.", MessageTypeDefOf.SilentInput, this));
+                }
+            };
+            yield return clearContainedPlants;
+        }
     }
 }
