@@ -1,7 +1,9 @@
-﻿import logging
+﻿import glob
+import logging
+import shutil
 import sys
 from pathlib import Path
-from shutil import rmtree, copytree
+from shutil import rmtree
 from typing import List
 
 logger = logging.getLogger(__name__)
@@ -41,13 +43,29 @@ def main(output_directory: Path) -> None:
     else:
         output_mod_directory.mkdir(parents=False)
 
-    logger.debug('Beginning folder copying sequence.')
-    for folder in pertinents_folders:
-        source_directory: Path = PROJECT_DIRECTORY / folder
-        destination_directory: Path = output_mod_directory / folder
+    patterns: List[str] = [
+        "About/",
+        "About/About.xml",
+        "About/Preview.png",
+        "Assemblies/",
+        "Assemblies/HydroponicsExpanded.dll",
+        "Defs/**",
+        "Languages/**",
+        "Textures/**"
+    ]
 
-        logger.debug('Copying from "{}" to "{}'.format(source_directory, destination_directory))
-        copytree(source_directory, destination_directory)
+    for pattern in patterns:
+        paths: List[Path] = list(map(Path, glob.glob(str(PROJECT_DIRECTORY / pattern), recursive=True)))
+
+        for source_path in paths:
+            relative_path: Path = source_path.relative_to(PROJECT_DIRECTORY)
+            destination_path: Path = output_mod_directory / relative_path
+
+            logger.debug("Copying from {} to {}".format(source_path, destination_path))
+            if source_path.is_dir():
+                destination_path.mkdir(exist_ok=True)
+            elif source_path.is_file():
+                shutil.copyfile(source_path, destination_path)
 
 
 if __name__ == "__main__":
