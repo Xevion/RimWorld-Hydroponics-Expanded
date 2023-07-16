@@ -88,20 +88,27 @@ namespace HydroponicsExpanded {
             // Despite the name, this is just a power check. We don't want to grow the plants if there is no power.
             if (!base.CanAcceptSowNow()) return;
 
-            // Temperature & time of day check.
-            float temperature = Position.GetTemperature(Map);
-            if (!(temperature > 10f) || !(temperature < 42f) ||
-                !(GenLocalDate.DayPercent(this) > 0.25f) || !(GenLocalDate.DayPercent(this) < 0.8f)) return;
 
             // The first plant in the container is the 'tracked' plant.
-            var growthTrackingPlant = _innerContainer[0] as Plant;
+            // This set/type check is for preventing NPE warnings. The previous .Count check implicitly makes this impossible, but the compiler doesn't know that.
+            if (!(_innerContainer[0] is Plant growthTrackingPlant)) {
+                Log.Message(
+                    $"Unexpected thing in BuildingDenseHydroponicsBasin.innerContainer ({_innerContainer.GetType()})");
+                return;
+            }
 
-            // ReSharper disable once PossibleNullReferenceException
-            float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
-            growthTrackingPlant.Growth += def.fertility * growthAmount;
-            _highestGrowth = growthTrackingPlant.Growth;
+            // Temperature & time of day check.
+            float temperature = Position.GetTemperature(Map);
+            if (temperature.Between(10f, 42f) && GenLocalDate.DayPercent(this).Between(0.25f, 0.8f)) {
+                float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
+
+                // Debug gizmo can set growth to 100%, thus Math.min check here.
+                growthTrackingPlant.Growth = Math.Min(1f, def.fertility * growthAmount);
+                _highestGrowth = growthTrackingPlant.Growth;
+            }
 
             // When growth is complete, move to the harvesting stage.
+            // This is ran even if growing is not available as debug gizmo can push growth to 'mature' stage outside normal growing times.
             if (growthTrackingPlant.LifeStage == PlantLifeStage.Mature)
                 Stage = HydroponicsStage.Harvest;
         }
