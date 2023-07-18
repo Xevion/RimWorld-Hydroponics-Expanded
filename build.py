@@ -45,6 +45,7 @@ def main(output_directory: Path) -> None:
 
     patterns: List[str] = [
         "About/",
+        "About/PublishedFileId.txt",
         "About/About.xml",
         "About/Preview.png",
         "Assemblies/",
