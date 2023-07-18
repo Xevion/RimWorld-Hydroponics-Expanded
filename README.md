@@ -32,8 +32,9 @@ This mod does not modify any core vanilla code or Defs, and only builds off of t
 Therefore, other mods should have no problem with Hydroponics Expanded.
 
 That said, mods that add custom crops may have issues - especially if they have custom growth mechanics.
-A good example is a crop that, when harvested, does not get deleted. Typical hydroponic-grown crops in Vanilla RimWorld
-get deleted when harvested, and thus work fine. Trees however, are not, and do not get deleted once harvested.
+Harvestable plants (like Ambrosia) have custom interactions setup to allow them to be harvested _once_ instead of
+multiple times.
+The way the hydroponics are coded is not conducive to multi-harvest plants.
 
 You can expect any crops like this to not work well within the basins added by Hydroponics Expanded.
 
