@@ -145,6 +145,17 @@ namespace HydroponicsExpanded {
                     break;
             }
 
+            // Re-harvestable plants will be destroyed if we think they've been harvested recently.
+            foreach (Plant plant in PlantsOnMe) {
+                if (plant.def.plant.HarvestDestroys) continue;
+                
+                // Only consider re-harvestable plants eligible if they're still within 20% of their harvest growth level,
+                // up to 90%. This may need tuning if there are harvestable plants that go to 90% growth.
+                var minGrowth = plant.def.plant.harvestAfterGrowth;
+                if (plant.Growth.Between(minGrowth, Math.Min(0.9f, minGrowth + 0.2f), inclusive: true))
+                    plant.Destroy();
+            }
+
             // All plants have been harvested. Switch back to sowing stage.
             if (_innerContainer.Count == 0)
                 Stage = HydroponicsStage.Sowing;
