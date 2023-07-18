@@ -180,17 +180,20 @@ namespace HydroponicsExpanded {
 
         public override void TickRare() {
             // Tick the current stage.
-            HydroponicsStage initialStage = _stage;
-            TickStage(_stage);
+            HydroponicsStage initialStage = Stage;
+            TickStage(Stage);
 
             // If the stage changed, re-run the next tick. This can allow for instant Grow -> Harvest transition.
             if (_stage != initialStage)
-                TickStage(_stage);
+                TickStage(Stage);
 
             // Apply rotting damage to all plants while power is cut.
-            if (!base.CanAcceptSowNow())
+            if (!base.CanAcceptSowNow()) {
                 foreach (Thing thing in _innerContainer)
                     ((Plant)thing).TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
+                foreach (Plant plant in PlantsOnMe)
+                    plant.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
+            }
         }
 
         private static readonly Material HydroponicPoweredFillMaterial =
