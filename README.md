@@ -8,6 +8,9 @@
   </sub>
 </div>
 
+<br>
+
+[![badge-workshop-subscribers]][workshop-link] [![badge-workshop-favorites]][workshop-link] [![badge-version]][workshop-link]
 
 Provides simple but powerful hydroponics that store plants underground at the cost of expensive components, lots of
 power, and research.
@@ -65,6 +68,12 @@ preventing the crop from being sown in the hydroponics in the first place (there
     - 2x6 Bay, 65 plants, 340% fertility
 
 [workshop-link]: https://steamcommunity.com/sharedfiles/filedetails/?id=3005196131
+
+[badge-version]: https://img.shields.io/badge/built_for-RimWorld_1.4-blue
+
+[badge-workshop-subscribers]: https://img.shields.io/endpoint.svg?url=https://shieldsio-steam-workshop.jross.me/3005196131/subscriptions-text
+
+[badge-workshop-favorites]: https://img.shields.io/endpoint.svg?url=https://shieldsio-steam-workshop.jross.me/3005196131/favourites-text
 
 [hydroponics-basin]: https://rimworldwiki.com/wiki/Hydroponics_basin
 
