@@ -7,6 +7,7 @@ using HydroponicsExpanded.Utility;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace HydroponicsExpanded {
@@ -78,6 +79,11 @@ namespace HydroponicsExpanded {
                     plant.Destroy();
                 SoundDefOf.CryptosleepCasket_Accept.PlayOneShot(new TargetInfo(Position, Map));
                 Stage = HydroponicsStage.Grow;
+
+                // Some active sowing jobs may be in progress for pathing, and thus will sow plants AFTER the stage
+                // transition is made. This results in some weird looking random plants very rarely.
+                // In order to fix this, we'll just remove all pending sowing jobs that relate to THIS hydroponics.
+                CancelActiveJobs();
             }
         }
 
@@ -148,7 +154,7 @@ namespace HydroponicsExpanded {
             // Re-harvestable plants will be destroyed if we think they've been harvested recently.
             foreach (Plant plant in PlantsOnMe) {
                 if (plant.def.plant.HarvestDestroys) continue;
-                
+
                 // Only consider re-harvestable plants eligible if they're still within 20% of their harvest growth level,
                 // up to 90%. This may need tuning if there are harvestable plants that go to 90% growth.
                 var minGrowth = plant.def.plant.harvestAfterGrowth;
@@ -193,6 +199,29 @@ namespace HydroponicsExpanded {
                     ((Plant)thing).TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
                 foreach (Plant plant in PlantsOnMe)
                     plant.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 1f));
+            }
+        }
+
+        /**
+         * This method cancels all active sowing jobs that interact with this given hydroponics' growing zone.
+         */
+        private void CancelActiveJobs() {
+            CellRect region = this.OccupiedRect();
+            foreach (Pawn pawn in Map.mapPawns.AllPawnsSpawned) {
+                // Prisoners can't do sow jobs (slaves could though)
+                if (pawn.IsPrisoner) continue;
+
+                foreach (Job job in pawn.jobs.AllJobs()) {
+                    // Only worry about sowing jobs
+                    if (job.def != JobDefOf.Sow) continue;
+                    // Only care if it's in our hydroponics region
+                    if (!region.Contains(job.targetA.Cell)) continue;
+
+                    Log.Message($"Canceled a Sow Job at {job.targetA.Cell} for {pawn.NameFullColored}");
+
+                    // Cancel the job, make sure it doesn't get regenerated
+                    pawn.jobs.EndCurrentOrQueuedJob(job, JobCondition.Incompletable, false);
+                }
             }
         }
 
