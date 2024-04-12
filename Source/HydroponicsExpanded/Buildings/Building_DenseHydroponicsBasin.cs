@@ -234,13 +234,13 @@ namespace HydroponicsExpanded {
         private static readonly Material HydroponicUnfilledMaterial =
             SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f));
 
-        public override void Draw() {
-            base.Draw();
+        protected override void DrawAt(Vector3 drawLoc, bool flip=false) {
+            base.DrawAt(drawLoc, flip);
 
             // Only draw growth percentage bar during Sowing stage
             if (_stage == HydroponicsStage.Grow) {
                 var bar = new GenDraw.FillableBarRequest {
-                    center = DrawPos + Vector3.up * 0.1f,
+                    center = drawLoc + Vector3.up * 0.1f,
                     size = new Vector2(DrawSize.y - 0.4f, DrawSize.x - 0.4f),
                     margin = 0.15f,
                     fillPercent = _highestGrowth,
