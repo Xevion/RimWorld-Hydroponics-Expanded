@@ -1,3 +1,4 @@
 ﻿.idea
-/Assemblies/*.dll
-/Assemblies/*.pdb
+Assemblies/*.dll
+Assemblies/*.pdb
+build/
