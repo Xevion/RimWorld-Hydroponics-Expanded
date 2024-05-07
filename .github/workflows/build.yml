@@ -28,12 +28,15 @@ jobs:
     - name: Build Mod
       run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
 
+    - name: Setup Go environment
+      uses: actions/setup-go@v5.0.1
+
     - name: Get Version
       id: get_version
       uses: mikefarah/yq@master
       with:
-        cmd: cat ./About/About.xml | xq '.ModMetaData.modVersion'
-
+        cmd: cat ./About/About.xml | xq ./About/About.xml -x "/ModMetaData/modVersion"
+        
     - name: Move files
       run: |
         mkdir -p output/HydroponicsExpanded
