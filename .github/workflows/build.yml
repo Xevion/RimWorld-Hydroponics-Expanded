@@ -35,7 +35,8 @@ jobs:
       id: get_version
       run: |
         go install github.com/sibprogrammer/xq@latest
-        xq ./About/About.xml -x "/ModMetaData/modVersion"
+        VERSION=$(xq ./About/About.xml -x "/ModMetaData/modVersion")
+        echo "::set-output name=result::$VERSION"
 
     - name: Move files
       run: |
