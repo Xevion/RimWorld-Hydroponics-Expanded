@@ -33,7 +33,9 @@ jobs:
 
     - name: Get Version
       id: get_version
-      run: cat ./About/About.xml | xq ./About/About.xml -x "/ModMetaData/modVersion"
+      run: |
+        go install github.com/sibprogrammer/xq@latest
+        xq ./About/About.xml -x "/ModMetaData/modVersion"
 
     - name: Move files
       run: |
