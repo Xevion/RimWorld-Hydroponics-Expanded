@@ -1,0 +1,40 @@
+name: Build
+
+env:
+  SLN_PATH: Source/HydroponicsExpanded/
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Dotnet
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 8.0.x
+      
+    - name: Install Mod Dependencies
+      run: dotnet restore ${{ env.SLN_PATH }}
+
+    - name: Build Mod
+      run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
+
+    - name: Move files
+      run: |
+        mkdir -p output/HydroponicsExpanded
+        mv About/ Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
+
+    - name: Upload Mod Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: HydroponicsExpanded
+        path: output/

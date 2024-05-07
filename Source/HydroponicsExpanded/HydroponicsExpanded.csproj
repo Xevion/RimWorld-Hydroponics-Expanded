@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" /> -->
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,8 +9,9 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>HydroponicsExpanded</RootNamespace>
         <AssemblyName>HydroponicsExpanded</AssemblyName>
-        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+        <TargetFramework>net472</TargetFramework>
         <FileAlignment>512</FileAlignment>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,7 +32,7 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
-    <ItemGroup>
+    <!-- <ItemGroup>
         <Reference Include="Assembly-CSharp">
           <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
@@ -45,15 +46,18 @@
         <Reference Include="UnityEngine.CoreModule">
           <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
-    </ItemGroup>
+    </ItemGroup> -->
     <ItemGroup>
-        <Compile Include="Buildings\Building_DenseHydroponicsBasin.cs" />
+        <!-- <Compile Include="Buildings\Building_DenseHydroponicsBasin.cs" />
         <Compile Include="Enums\HydroponicsStage.cs" />
         <Compile Include="ModExtension\CapacityExtension.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Utility\BetweenExtension.cs" />
+        <Compile Include="Utility\BetweenExtension.cs" /> -->
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <ItemGroup>
+      <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4085" />
+    </ItemGroup>
+    <!-- <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" /> -->
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
