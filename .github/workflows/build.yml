@@ -28,16 +28,16 @@ jobs:
     - name: Build Mod
       run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
 
-    - name: Move files
-      run: |
-        mkdir -p output/HydroponicsExpanded
-        mv About/About.xml About/Preview.png About/PublishedFileId.txt Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
-      
     - name: Get Version
       id: get_version
       uses: mikefarah/yq@master
       with:
         cmd: cat ./About/About.xml | xq '.ModMetaData.modVersion'
+
+    - name: Move files
+      run: |
+        mkdir -p output/HydroponicsExpanded
+        mv About/About.xml About/Preview.png About/PublishedFileId.txt Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
 
     - name: Upload Mod Artifacts
       uses: actions/upload-artifact@v2
