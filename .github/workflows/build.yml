@@ -36,6 +36,5 @@ jobs:
     - name: Upload Mod Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: 
-        path: |
-          output/
+        name: HydroponicsExpanded
+        path: output/
