@@ -69,7 +69,7 @@ preventing the crop from being sown in the hydroponics in the first place (there
 
 [workshop-link]: https://steamcommunity.com/sharedfiles/filedetails/?id=3005196131
 
-[badge-version]: https://img.shields.io/badge/built_for-RimWorld_1.4-blue
+[badge-version]: https://img.shields.io/badge/built_for-RimWorld_1.5-blue
 
 [badge-workshop-subscribers]: https://img.shields.io/endpoint.svg?url=https://shieldsio-steam-workshop.jross.me/3005196131/subscriptions-text
 
