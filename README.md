@@ -27,7 +27,7 @@ expensive both in resources & power usage.
 - Compact Hydroponics for growing many plants in a small space.
 - Balanced recipes with absurd power/recipe requirements for absurd density.
 - Simple usage with relatively no changes compared to traditional Hydroponics.
-- Strong compatability with few changes to Vanilla RimWorld.
+- Strong compatibility with few changes to Vanilla RimWorld.
 
 ## Compatibility
 

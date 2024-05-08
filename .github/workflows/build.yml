@@ -43,7 +43,7 @@ jobs:
     - name: Move files
       run: |
         mkdir -p output/HydroponicsExpanded
-        mv About/About.xml About/Preview.png About/PublishedFileId.txt Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
+        mv About/ Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
 
     - name: Upload Mod Artifacts
       uses: actions/upload-artifact@v2
