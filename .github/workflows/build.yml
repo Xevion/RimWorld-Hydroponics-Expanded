@@ -15,10 +15,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup Dotnet
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
       
@@ -32,13 +32,14 @@ jobs:
       uses: actions/setup-go@v5.0.1
       with:
         go-version: stable
+        cache-dependency-path: .github/workflows/go.sum
 
     - name: Get Version
       id: get_version
       run: |
         go install github.com/sibprogrammer/xq@latest
         VERSION=$(xq ./About/About.xml -x "/ModMetaData/modVersion")
-        echo "::set-output name=result::$VERSION"
+        echo "result=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Move files
       run: |
@@ -46,7 +47,7 @@ jobs:
         mv About/ Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
 
     - name: Upload Mod Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: HydroponicsExpanded-${{ steps.get_version.outputs.result }}
         path: output/
