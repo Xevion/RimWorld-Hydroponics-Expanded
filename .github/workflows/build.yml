@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Setup Dotnet
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
       
@@ -47,7 +47,7 @@ jobs:
         mv About/ Assemblies/ Defs/ Languages/ Textures/ output/HydroponicsExpanded
 
     - name: Upload Mod Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: HydroponicsExpanded-${{ steps.get_version.outputs.result }}
         path: output/
