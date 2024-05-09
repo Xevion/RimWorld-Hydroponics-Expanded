@@ -114,7 +114,7 @@ namespace HydroponicsExpanded {
             }
 
             // Temperature & time of day check.
-            if (IsResting()) {
+            if (IsResting() == false) {
                 float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
 
                 // Debug gizmo can set growth to 100%, thus Math.min check here.
@@ -134,7 +134,7 @@ namespace HydroponicsExpanded {
         /// <returns><c>true</c> if the hydroponics basin is in a resting state; otherwise, <c>false</c>.</returns>
         private bool IsResting() {
             float temperature = Position.GetTemperature(Map);
-            return temperature.Between(10f, 42f) && GenLocalDate.DayPercent(this).Between(0.25f, 0.8f);
+            return !(temperature.Between(10f, 42f) && GenLocalDate.DayPercent(this).Between(0.25f, 0.8f));
         }
 
         private void HarvestTick() {
