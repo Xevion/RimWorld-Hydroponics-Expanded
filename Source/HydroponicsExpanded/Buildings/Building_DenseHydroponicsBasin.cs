@@ -130,8 +130,6 @@ namespace HydroponicsExpanded {
         }
 
         private void HarvestTick() {
-            // var plantsLeft = _innerContainer.Count;
-            // var potentialCellCount = this.OccupiedRect().Area;
 
             // Try to place every plant in the container in any cell.
             foreach (Thing nextInnerThing in _innerContainer) {
