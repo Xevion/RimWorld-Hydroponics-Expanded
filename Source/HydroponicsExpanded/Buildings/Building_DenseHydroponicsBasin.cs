@@ -74,11 +74,17 @@ namespace HydroponicsExpanded {
 
             // If the maximum capacity is reached, then we should move to the growing stage.
             if (capacityReached) {
+                Stage = HydroponicsStage.Grow;
+
                 // Some plants might have been skipped, so go back and kill anything still on top.
                 foreach (Plant plant in PlantsOnMe)
                     plant.Destroy();
+                
+                // Play the sound effect to signal the transition to the grow stage.
                 SoundDefOf.CryptosleepCasket_Accept.PlayOneShot(new TargetInfo(Position, Map));
-                Stage = HydroponicsStage.Grow;
+
+                // Set the highest growth to the tracked plant's growth, to ensure the bar is accurate.
+                _highestGrowth = ((Plant)_innerContainer[0]).Growth;
 
                 // Some active sowing jobs may be in progress for pathing, and thus will sow plants AFTER the stage
                 // transition is made. This results in some weird looking random plants very rarely.

@@ -38,6 +38,9 @@
                 <capacity>12</capacity>
             </li>
         </modExtensions>
+        <researchPrerequisites>
+            <li>HE_HighDensityHydroponics</li>
+        </researchPrerequisites>
     </ThingDef>
 
 </Defs>
