@@ -6,4 +6,5 @@
     <HydroponicsExpanded.HarvestStage>Waiting for all plants to be harvested.</HydroponicsExpanded.HarvestStage>
     <HydroponicsExpanded.OccupiedBays>Occupied Plant Bays</HydroponicsExpanded.OccupiedBays>
     <HydroponicsExpanded.Growth>Growth</HydroponicsExpanded.Growth>
+    <HydroponicsExpanded.Resting>resting</HydroponicsExpanded.Resting>
 </LanguageData>
