@@ -114,8 +114,7 @@ namespace HydroponicsExpanded {
             }
 
             // Temperature & time of day check.
-            float temperature = Position.GetTemperature(Map);
-            if (temperature.Between(10f, 42f) && GenLocalDate.DayPercent(this).Between(0.25f, 0.8f)) {
+            if (IsResting() == false) {
                 float growthAmount = 1f / (60_000f * growthTrackingPlant.def.plant.growDays) * 250f;
 
                 // Debug gizmo can set growth to 100%, thus Math.min check here.
@@ -129,10 +128,16 @@ namespace HydroponicsExpanded {
                 Stage = HydroponicsStage.Harvest;
         }
 
-        private void HarvestTick() {
-            // var plantsLeft = _innerContainer.Count;
-            // var potentialCellCount = this.OccupiedRect().Area;
+        /// <summary>
+        /// Determines whether the hydroponics basin is in a resting state.
+        /// </summary>
+        /// <returns><c>true</c> if the hydroponics basin is in a resting state; otherwise, <c>false</c>.</returns>
+        private bool IsResting() {
+            float temperature = Position.GetTemperature(Map);
+            return !(temperature.Between(10f, 42f) && GenLocalDate.DayPercent(this).Between(0.25f, 0.8f));
+        }
 
+        private void HarvestTick() {
             // Try to place every plant in the container in any cell.
             foreach (Thing nextInnerThing in _innerContainer) {
                 var nextPlant = (Plant)nextInnerThing;
@@ -291,6 +296,10 @@ namespace HydroponicsExpanded {
             if (_innerContainer.Count > 0) {
                 inspectString += "\n";
                 inspectString += "HydroponicsExpanded.Growth".Translate() + $": {_highestGrowth * 100f:#0}%";
+
+                if (IsResting()) {
+                    inspectString += " (" + "HydroponicsExpanded.Resting".Translate() + ")";
+                }
             }
 
             return inspectString;
