@@ -28,16 +28,10 @@ jobs:
     - name: Build Mod
       run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
 
-    - name: Setup Go environment
-      uses: actions/setup-go@v5.0.1
-      with:
-        go-version: stable
-        cache-dependency-path: .github/workflows/go.sum
-
     - name: Get Version
       id: get_version
       run: |
-        go install github.com/sibprogrammer/xq@latest
+        curl -sf https://gobinaries.com/sibprogrammer/xq@latest | sh
         VERSION=$(xq ./About/About.xml -x "/ModMetaData/modVersion")
         echo "result=$VERSION" >> $GITHUB_OUTPUT
 
